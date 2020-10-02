@@ -1,8 +1,9 @@
+
 //SURAJMAL KUMAR
 
 //User Registration Program
 
-//Use case 1 i.e. Checking for the correct First Name.
+//Use case 2 i.e. Checking for the correct Last Name.
 
 //https://github.com/surajkumar7252/UserRegistration.git
 
@@ -14,34 +15,34 @@ import java.util.regex.*;
 
 public class EmailValidatorProgram {
 	
-	private Pattern firstNamePattern;
+	private Pattern LastNamePattern;
 	private Matcher matchPattern;
 	
 	static Scanner sc= new Scanner(System.in);
 	
-	private static final String CHECK_FIRST_NAME_TEMPLATE ="^[A-Za-z0-9]{3,25}$";
+	private static final String CHECK_LAST_NAME_TEMPLATE ="^[A-Za-z0-9]{3,25}$";
 	
 	public EmailValidatorProgram(){
 		
-		firstNamePattern=Pattern.compile(CHECK_FIRST_NAME_TEMPLATE);
+		LastNamePattern=Pattern.compile(CHECK_LAST_NAME_TEMPLATE);
 		}
 
-	public boolean check( String firstName)
+	public boolean check( String lastName)
 	{
-		matchPattern=firstNamePattern.matcher(firstName);
+		matchPattern=LastNamePattern.matcher(lastName);
 		return matchPattern.matches();
 	}
 	
 	public static void main(String[] args) {
-		System.out.println("Enter the First Name: ");
+		System.out.println("Enter the Last Name: ");
 		String lastName=sc.nextLine();
-		EmailValidatorProgram firstNameCheck = new EmailValidatorProgram();
-		boolean value=firstNameCheck.check(lastName);
+		EmailValidatorProgram lastNameCheck = new EmailValidatorProgram();
+		boolean value=lastNameCheck.check(lastName);
 		if(value) {
-			System.out.println("First Name is Correct.");
+			System.out.println("Last Name is Correct.");
 		}
 		else if(!value) {
-			System.out.println("You entered a Wrong First Name.");
+			System.out.println("You entered a Wrong Last Name.");
 		}
 			
 }
