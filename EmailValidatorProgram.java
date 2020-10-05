@@ -4,7 +4,7 @@
 
 //User Registration Program
 
-//Use case 2 i.e. Checking for the correct Phone Number..
+//Use case 2 i.e. Checking for the Password..
 
 //https://github.com/surajkumar7252/UserRegistration.git
 
@@ -29,6 +29,7 @@ public class EmailValidatorProgram {
 	static Scanner firstnamefeed= new Scanner(System.in);
 	static Scanner emailFeed= new Scanner(System.in);
 	static Scanner phoneFeed= new Scanner(System.in);
+	static Scanner password= new Scanner(System.in);
 	
 	
 	
@@ -79,8 +80,11 @@ public class EmailValidatorProgram {
 		System.out.println("Enter the Email-Id: ");
 		String email=emailFeed.nextLine();
 		
-		System.out.println("Enter the Email-Id: ");
+		System.out.println("Enter the Phone Number: ");
 		String phone=phoneFeed.nextLine();
+		
+		System.out.println("Enter the Password: ");
+		String pass = password.nextLine();
 		
 		EmailValidatorProgram lastNameCheck = new EmailValidatorProgram();
 		EmailValidatorProgram firstNameCheck = new EmailValidatorProgram();
@@ -91,6 +95,7 @@ public class EmailValidatorProgram {
 		boolean lastResponse=lastNameCheck.checkLastName(lastName);
 		boolean emailResponse=emailCheck.checkEmail(email);
 		boolean phoneResponse=phoneCheck.checkPhoneNumber(phone);
+		
 		
 		if(firstResponse) {
 			System.out.println("First Name is Correct.");
@@ -117,6 +122,14 @@ public class EmailValidatorProgram {
 		}
 		else if(!phoneResponse) {
 			System.out.println("You entered a Wrong Phone Number.");
+		}
+		
+		if (pass.length()>=8) {
+			System.out.println("Password is Correct.");
+			} 
+		else {
+			System.out.println("Invalid entry for a password");
+			
 		}
 			
 }
