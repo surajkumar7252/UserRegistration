@@ -4,7 +4,7 @@
 
 //User Registration Program
 
-//Use case 2 i.e. Checking for the Password RULE 4..
+//Use case 9 i.e. Checking for the All email Pass..
 
 //https://github.com/surajkumar7252/UserRegistration.git
 
@@ -104,15 +104,22 @@ public class EmailValidatorProgram {
 		matchPatternPassword4=passwordPattern4.matcher(pass);
 		return matchPatternPassword4.matches();
 	}
+	
+	
+	
 	public static void main(String[] args) {
+		
+		String[] sampleEmailList=new String[]{"abc@yahoo.com","abc-100@yahoo.com","abc.100@yahoo.com","abc111@abc.com","abc-100@abc.net","abc.100@abc.com.au",
+				                              "abc@1.com","abc@gmail.com.com","abc+100@gmail.com","abc","abc@.com.my","abc123@gmail.a","abc123@.com","abc123@.com.com",".abc@abc.com",
+				                              "abc()*@gmail.com","abc@%*.com","abc..2002@gmail.com","abc.@gmail.com","abc@abc@gmail.com","abc@gmail.com.1a","abc@gmail.com.aa.au"};
+		
+		
 		System.out.println("Enter the First Name: ");
 		String firstName=firstnamefeed.nextLine();
 
 		System.out.println("Enter the Last Name: ");
 		String lastName=lastnamefeed.nextLine();
 		
-		System.out.println("Enter the Email-Id: ");
-		String email=emailFeed.nextLine();
 		
 		System.out.println("Enter the Phone Number: ");
 		String phone=phoneFeed.nextLine();
@@ -131,13 +138,21 @@ public class EmailValidatorProgram {
 		
 		boolean firstResponse=firstNameCheck.checkLastName(firstName);
 		boolean lastResponse=lastNameCheck.checkLastName(lastName);
-		boolean emailResponse=emailCheck.checkEmail(email);
 		boolean phoneResponse=phoneCheck.checkPhoneNumber(phone);
 		boolean passwordResponse=passwordCheck.checkPassword(pass);
 		boolean passwordResponse3=passwordCheck3.checkPassword3(pass);
-		boolean passwordResponse4=passwordCheck4.checkPassword3(pass);
+		boolean passwordResponse4=passwordCheck4.checkPassword4(pass);
 		
-		
+		for(String emailSample:sampleEmailList){
+			String email=emailFeed.nextLine();
+			boolean emailResponse=emailCheck.checkEmail(email);
+			if(emailResponse) {
+				System.out.println("Email ID  is Correct.");
+			}
+			else if(!emailResponse) {
+				System.out.println("Wrong Email ID.");
+			}
+		}
 		if(firstResponse) {
 			System.out.println("First Name is Correct.");
 		}
@@ -151,12 +166,7 @@ public class EmailValidatorProgram {
 		else if(!lastResponse) {
 			System.out.println("You entered a Wrong Last Name.");
 		}
-		if(emailResponse) {
-			System.out.println("Email ID  is Correct.");
-		}
-		else if(!emailResponse) {
-			System.out.println("You entered a Wrong Email ID.");
-		}
+		
 		
 		if(phoneResponse) {
 			System.out.println("Phone Number is Correct.");
