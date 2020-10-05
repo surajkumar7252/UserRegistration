@@ -4,7 +4,7 @@
 
 //User Registration Program
 
-//Use case 2 i.e. Checking for the Password..
+//Use case 2 i.e. Checking for the Password RULE 2..
 
 //https://github.com/surajkumar7252/UserRegistration.git
 
@@ -20,10 +20,14 @@ public class EmailValidatorProgram {
 	private Pattern firstNamePattern;
 	private Pattern emailPattern;
 	private Pattern phoneNumberPattern;
+	private Pattern passwordPattern;
+	
 	private Matcher matchPatternLastName;
 	private Matcher matchPatternFirstName;
 	private Matcher matchPatternEmail;
 	private Matcher matchPatternPhone;
+	private Matcher matchPatternPassword;
+	
 	
 	static Scanner lastnamefeed= new Scanner(System.in);
 	static Scanner firstnamefeed= new Scanner(System.in);
@@ -36,6 +40,8 @@ public class EmailValidatorProgram {
     private static final String CHECK_NAME_TEMPLATE ="^[A-Za-z0-9]{3,25}$";
     private static final String CHECK_EMAIL_TEMPLATE ="^[a-zA-Z0-9]+([_+-.]{1}[a-zA-Z0-9]+)?@[a-zA-Z0-9]+[.]{1}[a-zA-Z]{2,}([_+-.]{1}[a-zA-Z]{2,})?";
     private static final String CHECK_PHONE_NUMBER_TEMPLATE ="^[1-9]{1,3}[ ]{1}[1-9]{1}[0-9]{9}";
+    private static final String CHECK_PASSWORD_TEMPLATE =".*[A-Z].*";
+     
     
    public EmailValidatorProgram(){
 	
@@ -43,6 +49,7 @@ public class EmailValidatorProgram {
 		lastNamePattern=Pattern.compile(CHECK_NAME_TEMPLATE);
 		emailPattern=Pattern.compile(CHECK_EMAIL_TEMPLATE);
 		phoneNumberPattern=Pattern.compile(CHECK_PHONE_NUMBER_TEMPLATE);
+		passwordPattern=Pattern.compile(CHECK_PASSWORD_TEMPLATE);
 		
 		}
 	
@@ -70,6 +77,12 @@ public class EmailValidatorProgram {
 		matchPatternPhone=phoneNumberPattern.matcher(phone);
 		return matchPatternPhone.matches();
 	}
+	
+	public boolean checkPassword( String pass)
+	{
+		matchPatternLastName=lastNamePattern.matcher(pass);
+		return matchPatternPassword.matches();
+	}
 	public static void main(String[] args) {
 		System.out.println("Enter the First Name: ");
 		String firstName=firstnamefeed.nextLine();
@@ -90,11 +103,14 @@ public class EmailValidatorProgram {
 		EmailValidatorProgram firstNameCheck = new EmailValidatorProgram();
 		EmailValidatorProgram emailCheck = new EmailValidatorProgram();
 		EmailValidatorProgram phoneCheck = new EmailValidatorProgram();
+		EmailValidatorProgram passwordCheck = new EmailValidatorProgram();
+		
 		
 		boolean firstResponse=firstNameCheck.checkLastName(firstName);
 		boolean lastResponse=lastNameCheck.checkLastName(lastName);
 		boolean emailResponse=emailCheck.checkEmail(email);
 		boolean phoneResponse=phoneCheck.checkPhoneNumber(phone);
+		boolean passwordResponse=passwordCheck.checkPassword(pass);
 		
 		
 		if(firstResponse) {
@@ -124,11 +140,11 @@ public class EmailValidatorProgram {
 			System.out.println("You entered a Wrong Phone Number.");
 		}
 		
-		if (pass.length()>=8) {
+		if (pass.length()>=8 && passwordResponse) {
 			System.out.println("Password is Correct.");
 			} 
 		else {
-			System.out.println("Invalid entry for a password");
+			System.out.println("Invalid  password");
 			
 		}
 			
