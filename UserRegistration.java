@@ -10,7 +10,33 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 
+ class  InvalidEmailException extends Exception {
 
+	public InvalidEmailException(String message) {
+		super();
+	}
+}
+ class InvalidNameException extends Exception {
+
+		public InvalidNameException(String message) {
+			super(message);
+		}
+		
+	}
+  class InvalidPasswordException extends Exception {
+
+		public InvalidPasswordException(String message) {
+			super(message);
+		}
+
+	}
+  class InvalidPhoneNumberException extends Exception {
+
+		public InvalidPhoneNumberException(String message) {
+			super(message);
+		}
+
+	}
 public class UserRegistration {
 	
 	private Pattern lastNamePattern;
@@ -60,31 +86,31 @@ public class UserRegistration {
 		}
 	
 	
-	public boolean checkLastName( String lastName)
+	public boolean checkLastName( String lastName) 
 	{
 		matchPatternLastName=lastNamePattern.matcher(lastName);
 		return matchPatternLastName.matches();
 	}
 	
-	public boolean checkFirstName( String firstName)
+	public boolean checkFirstName( String firstName) throws InvalidNameException
 	{
 		matchPatternFirstName=firstNamePattern.matcher(firstName);
 		return matchPatternFirstName.matches();
 	}
 	
-	public boolean checkEmail( String email)
+	public boolean checkEmail( String email) throws InvalidEmailException
 	{
 		matchPatternEmail=emailPattern.matcher(email);
 		return matchPatternEmail.matches();
 	}
 	
-	public boolean checkPhoneNumber( String phone)
+	public boolean checkPhoneNumber( String phone) throws InvalidPhoneNumberException
 	{
 		matchPatternPhone=phoneNumberPattern.matcher(phone);
 		return matchPatternPhone.matches();
 	}
 	
-	public boolean checkPassword( String pass)
+	public boolean checkPassword( String pass) throws InvalidPasswordException
 	{
 		matchPatternPassword=passwordPattern.matcher(pass);
 		return matchPatternPassword.matches();
