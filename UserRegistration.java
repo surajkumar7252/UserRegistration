@@ -1,212 +1,146 @@
-
-
-
 package userregistrationday6.userregistration;
-
-import java.util.Scanner;
-import java.util.regex.*;
+import java.util.*;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-
- class  InvalidEmailException extends Exception {
-
-	public InvalidEmailException(String message) {
-		super();
-	}
+@FunctionalInterface
+interface Validating{
+	public boolean validate(String entryPoint) throws InvalidEntryPointException ;
 }
- class InvalidNameException extends Exception {
 
-		public InvalidNameException(String message) {
-			super(message);
-		}
-		
-	}
-  class InvalidPasswordException extends Exception {
-
-		public InvalidPasswordException(String message) {
-			super(message);
-		}
-
-	}
-  class InvalidPhoneNumberException extends Exception {
-
-		public InvalidPhoneNumberException(String message) {
-			super(message);
-		}
-
-	}
 public class UserRegistration {
-	
-	private Pattern lastNamePattern;
-	private Pattern firstNamePattern;
-	private Pattern emailPattern;
-	private Pattern phoneNumberPattern;
-	private Pattern passwordPattern;
-	private Pattern passwordPattern3;
-	private Pattern passwordPattern4;
-	
-	private Matcher matchPatternLastName;
-	private Matcher matchPatternFirstName;
-	private Matcher matchPatternEmail;
-	private Matcher matchPatternPhone;
-	private Matcher matchPatternPassword;
-	private Matcher matchPatternPassword3;
-	private Matcher matchPatternPassword4;
+	private final static Logger logger=LogManager.getLogger(UserRegistration.class);
+	static Scanner feedInput = new Scanner(System.in);
+	List<User> usersList;
 	
 	
-	static Scanner lastnamefeed= new Scanner(System.in);
-	static Scanner firstnamefeed= new Scanner(System.in);
-	static Scanner emailFeed= new Scanner(System.in);
-	static Scanner phoneFeed= new Scanner(System.in);
-	static Scanner password= new Scanner(System.in);
-	
-	
-	
-    private static final String CHECK_NAME_TEMPLATE ="^[A-Za-z0-9]{3,25}$";
-    private static final String CHECK_EMAIL_TEMPLATE ="^[a-zA-Z0-9]+([_+-.]{1}[a-zA-Z0-9]+)?@[a-zA-Z0-9]+[.]{1}[a-zA-Z]{2,}([_+-.]{1}[a-zA-Z]{2,})?";
-    private static final String CHECK_PHONE_NUMBER_TEMPLATE ="^[1-9]{1,3}[ ]{1}[1-9]{1}[0-9]{9}";
-    private static final String CHECK_PASSWORD_TEMPLATE =".*[A-Z].*+";
-    private static final String CHECK_PASSWORD_TEMPLATE3 =".*[0-9].*";
-    private static final String CHECK_PASSWORD_TEMPLATE4 ="[a-zA-Z0-9]*[^a-z^A-Z^0-9^ ]*[a-zA-Z0-9]*";
-    
-     
-    
-   public UserRegistration (){
-	
-		firstNamePattern=Pattern.compile(CHECK_NAME_TEMPLATE);
-		lastNamePattern=Pattern.compile(CHECK_NAME_TEMPLATE);
-		emailPattern=Pattern.compile(CHECK_EMAIL_TEMPLATE);
-		phoneNumberPattern=Pattern.compile(CHECK_PHONE_NUMBER_TEMPLATE);
-		passwordPattern=Pattern.compile(CHECK_PASSWORD_TEMPLATE);
-		passwordPattern3=Pattern.compile(CHECK_PASSWORD_TEMPLATE3);
-		passwordPattern4=Pattern.compile(CHECK_PASSWORD_TEMPLATE4);
-		
+	public  Validating nameCheck=firstName->{
+		if (firstName.matches("^[A-Za-z0-9]{3,25}$")) {
+			return true;
+		} else {
+			throw new InvalidEntryPointException(ExceptionType.FIRSTNAME_WRONG,"INVALID FIRST NAME");
 		}
+	};
 	
 	
-	public boolean checkLastName( String lastName) 
-	{
-		matchPatternLastName=lastNamePattern.matcher(lastName);
-		return matchPatternLastName.matches();
-	}
-	
-	public boolean checkFirstName( String firstName) throws InvalidNameException
-	{
-		matchPatternFirstName=firstNamePattern.matcher(firstName);
-		return matchPatternFirstName.matches();
-	}
-	
-	public boolean checkEmail( String email) throws InvalidEmailException
-	{
-		matchPatternEmail=emailPattern.matcher(email);
-		return matchPatternEmail.matches();
-	}
-	
-	public boolean checkPhoneNumber( String phone) throws InvalidPhoneNumberException
-	{
-		matchPatternPhone=phoneNumberPattern.matcher(phone);
-		return matchPatternPhone.matches();
-	}
-	
-	public boolean checkPassword( String pass) throws InvalidPasswordException
-	{
-		matchPatternPassword=passwordPattern.matcher(pass);
-		return matchPatternPassword.matches();
-	}
-	
-	public boolean checkPassword3( String pass)
-	{
-		matchPatternPassword3=passwordPattern3.matcher(pass);
-		return matchPatternPassword3.matches();
-	}
-	
-	public boolean checkPassword4( String pass)
-	{
-		matchPatternPassword4=passwordPattern4.matcher(pass);
-		return matchPatternPassword4.matches();
-	}
+	public  Validating emailCheck=emailId->{
+		if (emailId.matches("^[a-zA-Z0-9]+([_+-.]{1}[a-zA-Z0-9]+)?@[a-zA-Z0-9]+[.]{1}[a-zA-Z]{2,}([_+-.]{1}[a-zA-Z]{2,})?")) {
+			return true;
+		} else {
+			throw new InvalidEntryPointException(ExceptionType.EMAILID_WRONG,"INVALID EMAIL ID");
+		}
+	};
 	
 	
+	public  Validating phoneCheck=phoneNumber->{
+		if (phoneNumber.matches("^[1-9]{1,3}[ ]{1}[1-9]{1}[0-9]{9}")) {
+			return true;
+		} else {
+			throw new InvalidEntryPointException(ExceptionType.PHONENUMBER_WRONG,"INVALID PHONENUMBER");
+		}
+	};
 	
-	public static void main(String[] args) {
-		 final Logger logger = LogManager.getLogger(UserRegistration.class);
+	
+	public  Validating passwordCheck=password->{
+		if (password.matches("[a-zA-Z0-9]*[^a-z^A-Z^0-9^ ]*[a-zA-Z0-9]*")) {
+			return true;
+		} else {
+			throw new InvalidEntryPointException(ExceptionType.PASSWORD_WRONG,"INVALID PASSWORD");
+		}
+	};
+	
+	public UserRegistration() {
 		
-		String[] sampleEmailList=new String[]{"abc@yahoo.com","abc-100@yahoo.com","abc.100@yahoo.com","abc111@abc.com","abc-100@abc.net","abc.100@abc.com.au",
-				                              "abc@1.com","abc@gmail.com.com","abc+100@gmail.com","abc","abc@.com.my","abc123@gmail.a","abc123@.com","abc123@.com.com",".abc@abc.com",
-				                              "abc()*@gmail.com","abc@%*.com","abc..2002@gmail.com","abc.@gmail.com","abc@abc@gmail.com","abc@gmail.com.1a","abc@gmail.com.aa.au"};
+		usersList = new ArrayList<User>();
+	}
+	
+	public void addInfoOfUsers() {
 		
-		
-		logger.debug("Enter the First Name: ");
-		String firstName=firstnamefeed.nextLine();
+			logger.debug("Enter  first name: ");
+			String firstName = feedInput.nextLine();
+			logger.debug("Enter  last name: ");
+			String lastName = feedInput.nextLine();
+			logger.debug("Enter  email-Id: ");
+			String emailId = feedInput.nextLine();
+			logger.debug("Enter  phone number: ");
+			String phoneNumber = feedInput.nextLine();
+			logger.debug("Enter  password: ");
+			String password = feedInput.nextLine();
+				try {
+					if (nameCheck.validate(firstName) && nameCheck.validate(lastName) && emailCheck.validate(emailId) && phoneCheck.validate(phoneNumber) && passwordCheck.validate(password)) {
+						usersList.add(new User(firstName, lastName, emailId, phoneNumber, password));
+					}
+				} catch (InvalidEntryException e) {
+					logger.debug(e.getMessage());
+				}
+			
+			
+	}
 
-		logger.debug("Enter the Last Name: ");
-		String lastName=lastnamefeed.nextLine();
-		
-		
-		logger.debug("Enter the Phone Number: ");
-		String phone=phoneFeed.nextLine();
-		
-		logger.debug("Enter the Password: ");
-		String pass = password.nextLine();
-		
-		UserRegistration  lastNameCheck = new UserRegistration ();
-		UserRegistration  firstNameCheck = new UserRegistration ();
-		UserRegistration  emailCheck = new UserRegistration ();
-		UserRegistration  phoneCheck = new UserRegistration ();
-		UserRegistration  passwordCheck = new UserRegistration ();
-		UserRegistration passwordCheck3 = new UserRegistration ();
-		UserRegistration   passwordCheck4 = new UserRegistration  ();
-		
-		
-		boolean firstResponse=firstNameCheck.checkLastName(firstName);
-		boolean lastResponse=lastNameCheck.checkLastName(lastName);
-		boolean phoneResponse=phoneCheck.checkPhoneNumber(phone);
-		boolean passwordResponse=passwordCheck.checkPassword(pass);
-		boolean passwordResponse3=passwordCheck3.checkPassword3(pass);
-		boolean passwordResponse4=passwordCheck4.checkPassword4(pass);
-		
-		for(String emailSample:sampleEmailList){
-			String email=emailFeed.nextLine();
-			boolean emailResponse=emailCheck.checkEmail(email);
-			if(emailResponse) {
-				logger.debug("Email ID  is Correct.");
-			}
-			else if(!emailResponse) {
-				logger.debug("Wrong Email ID.");
-			}
-		}
-		if(firstResponse) {
-			logger.debug("First Name is Correct.");
-		}
-		else if(!firstResponse) {
-			logger.debug("You entered a Wrong First Name.");
-		}
-		
-		if(lastResponse) {
-			logger.debug("Last Name is Correct.");
-		}
-		else if(!lastResponse) {
-			logger.debug("You entered a Wrong Last Name.");
-		}
-		
-		
-		if(phoneResponse) {
-			logger.debug("Phone Number is Correct.");
-		}
-		else if(!phoneResponse) {
-			logger.debug("You entered a Wrong Phone Number.");
-		}
-		
-		if (pass.length()>=8 && passwordResponse && passwordResponse3 && passwordResponse4) {
-			logger.debug("Password is Correct.");
-			} 
-		else {
-			logger.debug("Invalid  password");
-			
-		}
-			
+	public static void main(String[] args) {
+		UserRegistration userRegistration = new UserRegistration();
+		userRegistration.addInfoOfUsers();
+		userRegistration.usersList.forEach(user->logger.debug(user));
+		feedInput.close();
+	}
 }
+
+class User {
+	public String firstName;
+	public String lastName;
+	public String emailId;
+	public String phoneNumber;
+	public String password;
+
+	public User(String firstName, String lastName, String emailId, String phoneNumber, String password) {
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.emailId = emailId;
+		this.phoneNumber = phoneNumber;
+		this.password = password;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNo) {
+		this.phoneNumber = phoneNo;
+	}
+
+	public String getEmailId() {
+		return emailId;
+	}
+
+	public void setEmail(String emailId) {
+		this.emailId = emailId;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
 	
 }
