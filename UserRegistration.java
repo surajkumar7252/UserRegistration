@@ -88,7 +88,7 @@ public class UserRegistration {
 	
 	public boolean checkLastName( String lastName) 
 	{
-		matchPatternLastName=lastNamePattern.matcher(lastName);
+		if(matchPatternLastName=lastNamePattern.matcher(lastName))
 		return matchPatternLastName.matches();
 		else {
 			throw new InvalidNameException("Invalid last name");
@@ -97,7 +97,7 @@ public class UserRegistration {
 	
 	public boolean checkFirstName( String firstName) throws InvalidNameException
 	{
-		matchPatternFirstName=firstNamePattern.matcher(firstName);
+		if(matchPatternFirstName=firstNamePattern.matcher(firstName))
 		return matchPatternFirstName.matches();
 		else {
 			throw new InvalidNameException("Invalid first  name");
@@ -106,7 +106,7 @@ public class UserRegistration {
 	
 	public boolean checkEmail( String email) throws InvalidEmailException
 	{
-		matchPatternEmail=emailPattern.matcher(email);
+		if(matchPatternEmail=emailPattern.matcher(email))
 		return matchPatternEmail.matches();
 		else {
 			throw new InvalidEmailException("Invalid Email");
@@ -115,7 +115,7 @@ public class UserRegistration {
 	
 	public boolean checkPhoneNumber( String phone) throws InvalidPhoneNumberException
 	{
-		matchPatternPhone=phoneNumberPattern.matcher(phone);
+		if(matchPatternPhone=phoneNumberPattern.matcher(phone))
 		return matchPatternPhone.matches();
 		else {
 			throw new InvalidPhoneNumberException("Invalid Phone Number");
@@ -124,7 +124,7 @@ public class UserRegistration {
 	
 	public boolean checkPassword( String pass) throws InvalidPasswordException
 	{
-		matchPatternPassword=passwordPattern.matcher(pass);
+		if(matchPatternPassword=passwordPattern.matcher(pass))
 		return matchPatternPassword.matches();
 		else {
 			throw new InvalidPasswordException("Invalid Password");
